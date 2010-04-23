@@ -34,20 +34,18 @@ function opengraphprotocoltools_plugin_path() {
 }
 
 function opengraphprotocoltools_image_url_default() {
+	// default image associated is in the plugin directory named "default.png"
 	return opengraphprotocoltools_plugin_path() . '/default.png';
 }
 
 function opengraphprotocoltools_image_url() {
+	// TODO: add code that checks for an attached image, possibly using
+	// get_the_image plugin?
 	return opengraphprotocoltools_image_url_default();
 }
 
 
 function opengraphprotocoltools_add_head() {
-		// REQUIRED
-		// title ~ title of web page
-		// type ~ blog
-		// image ~ ?
-		// url ~ url of post
 		global $wp_query;
 		$data = array();
 		if (is_home()) :
@@ -63,7 +61,6 @@ function opengraphprotocoltools_add_head() {
 			$data['image'] = opengraphprotocoltools_image_url();
 			$data['url'] = get_permalink();
 			$data['site_name'] = get_bloginfo('name');
-			$data['description'] = get_bloginfo('description');
 		endif;
 		echo get_opengraphprotocoltools_headers($data);
 }
@@ -75,7 +72,11 @@ function get_opengraphprotocoltools_headers($data) {
 	$out = array();
 	$out[] = "\n<!-- BEGIN: Open Graph Protocol Tools: http://opengraphprotocol.org/ for more info -->";
 	foreach ($data as $property => $content) {
-		$out[] = get_opengraphprotocoltools_tag($property, $content);
+		if ($content != '') {
+			$out[] = get_opengraphprotocoltools_tag($property, $content);
+		} else {
+			$out[] = "<!--{$property} value was blank-->";
+		}
 	}
 	$out[] = "<!-- End: Open Graph Protocol Tools-->\n";
 	return implode("\n", $out);
