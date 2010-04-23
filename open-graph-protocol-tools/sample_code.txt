@@ -1,0 +1,11 @@
+<?php
+/**
+ * Include this code on your theme for single blog posts (for example, in your single.php file)
+ * or on your blogs main page to include a Facebook "Like" iframe
+ */
+if (function_exists('the_opengraphprotocoltools_like_code')):
+	the_opengraphprotocoltools_like_code();
+else:
+	echo "<!-- opengraphprotocoltools is not activated -->";
+endif;
+?>
