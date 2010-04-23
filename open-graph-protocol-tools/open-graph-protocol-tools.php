@@ -56,14 +56,14 @@ function opengraphprotocoltools_add_head() {
 			$data['image'] = opengraphprotocoltools_image_url(); 
 			$data['url'] = get_bloginfo('url');
 			$data['site_name'] = get_bloginfo('name');
-			$data['description'] = '';
+			$data['description'] = get_bloginfo('description');
 		elseif (is_single() || is_page()):
 			$data['title'] = get_the_title();
 			$data['type'] = OGPT_DEFAULT_TYPE;
 			$data['image'] = opengraphprotocoltools_image_url();
 			$data['url'] = get_permalink();
 			$data['site_name'] = get_bloginfo('name');
-			$data['description'] = '';
+			$data['description'] = get_bloginfo('description');
 		endif;
 		echo get_opengraphprotocoltools_headers($data);
 }
