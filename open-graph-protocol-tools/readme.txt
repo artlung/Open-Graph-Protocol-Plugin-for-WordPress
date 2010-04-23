@@ -6,7 +6,7 @@ Requires at least: 2.9
 Tested up to: 2.9.2
 Stable tag: 1.0
 
-This is a tool to add Open Graph Protocol Data to your WordPress Install.
+This is a plugin to add Open Graph Protocol Data to your WordPress Install, plus adds the capability to add Facebook "Like" module.
 
 == Description ==
 
@@ -28,6 +28,20 @@ stable.
 
 1. Upload `open-graph-protocol-tools/` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
+3. To add the "Like" module, use this code:
+
+<pre>&lt;?php
+/**
+ * Include this code on your theme for single blog posts (for example, in your single.php file)
+ * or on your blogs main page to include a Facebook &quot;Like&quot; iframe
+ */
+if (function_exists(&#x27;the_opengraphprotocoltools_like_code&#x27;)):
+	the_opengraphprotocoltools_like_code();
+else:
+	echo &quot;&lt;!-- opengraphprotocoltools is not activated --&gt;&quot;;
+endif;
+?&gt;</pre>
+
 
 == Frequently Asked Questions ==
 
