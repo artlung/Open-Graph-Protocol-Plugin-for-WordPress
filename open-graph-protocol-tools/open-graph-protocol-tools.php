@@ -29,6 +29,19 @@ License: GPL2
 
 define('OGPT_DEFAULT_TYPE', 'blog');
 
+function opengraphprotocoltools_plugin_path() {
+	return get_option('siteurl') .'/wp-content/plugins/' . basename(dirname(__FILE__));
+}
+
+function opengraphprotocoltools_image_url_default() {
+	return opengraphprotocoltools_plugin_path() . '/default.png';
+}
+
+function opengraphprotocoltools_image_url() {
+	return opengraphprotocoltools_image_url_default();
+}
+
+
 function opengraphprotocoltools_add_head() {
 		// REQUIRED
 		// title ~ title of web page
@@ -40,14 +53,14 @@ function opengraphprotocoltools_add_head() {
 		if (is_home()) :
 			$data['title'] = get_bloginfo('name');
 			$data['type'] = OGPT_DEFAULT_TYPE;
-			$data['image'] = get_bloginfo('stylesheet_directory')."/opengraphprotocol.default.png";
+			$data['image'] = opengraphprotocoltools_image_url(); 
 			$data['url'] = get_bloginfo('url');
 			$data['site_name'] = get_bloginfo('name');
 			$data['description'] = '';
 		elseif (is_single() || is_page()):
 			$data['title'] = get_the_title();
 			$data['type'] = OGPT_DEFAULT_TYPE;
-			$data['image'] = get_bloginfo('stylesheet_directory')."/opengraphprotocol/default.png";
+			$data['image'] = opengraphprotocoltools_image_url();
 			$data['url'] = get_permalink();
 			$data['site_name'] = get_bloginfo('name');
 			$data['description'] = '';
