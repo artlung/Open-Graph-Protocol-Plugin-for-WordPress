@@ -3,7 +3,7 @@
 Plugin Name: Open Graph Protocol Tools
 Plugin URI: http://lab.artlung.com/open-graph-protocol-tools/
 Description: Tools for Open Graph Protocol
-Version: 1
+Version: 1.1
 Author: Joe Crawford
 Author URI: http://joecrawford.com
 License: GPL2
@@ -34,8 +34,6 @@ $ogpt_settings = array(
 	'fb:admins' => '',
 	'fb:appid' => '',
 );
-
-// my key 514619458
 
 define('OGPT_DEFAULT_TYPE', 'blog');
 define('OGPT_SETTINGS_KEY_FB_APPID', 'opengraphprotocoltools-fb:appid');
@@ -104,8 +102,20 @@ function opengraphprotocoltools_image_url_default() {
 }
 
 function opengraphprotocoltools_image_url() {
-	// TODO: add code that checks for an attached image, possibly using
-	// get_the_image plugin?
+	global $post;
+
+	$args = array(
+		'post_type' => 'attachment',
+		'post_mime_type' => 'image',
+		'post_parent' => $post->ID,
+	);
+
+	if( $images = get_children( $args ) ) {
+		foreach( $images as $image ) {
+			return array_shift(wp_get_attachment_image_src( $image->ID, 'medium' ));
+		}
+	}
+	// if no images, return the default
 	return opengraphprotocoltools_image_url_default();
 }
 
