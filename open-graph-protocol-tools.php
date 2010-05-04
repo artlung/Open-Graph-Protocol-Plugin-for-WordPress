@@ -36,6 +36,7 @@ $ogpt_settings = array(
 );
 
 define('OGPT_DEFAULT_TYPE', 'blog');
+define('OGPT_ARTICLE_TYPE', 'article');
 define('OGPT_SETTINGS_KEY_FB_APPID', 'opengraphprotocoltools-fb:appid');
 define('OGPT_SETTINGS_KEY_FB_ADMINS', 'opengraphprotocoltools-fb:admins');
 
@@ -132,7 +133,7 @@ function opengraphprotocoltools_set_data() {
 		$data['og:description'] = get_bloginfo('description');
 	elseif (is_single() || is_page()):
 		$data['og:title'] = get_the_title();
-		$data['og:type'] = OGPT_DEFAULT_TYPE;
+		$data['og:type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE; 
 		$data['og:image'] = opengraphprotocoltools_image_url();
 		$data['og:url'] = get_permalink();
 		$data['og:site_name'] = get_bloginfo('name');
