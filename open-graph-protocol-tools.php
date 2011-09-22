@@ -120,6 +120,33 @@ function opengraphprotocoltools_image_url() {
 	return opengraphprotocoltools_image_url_default();
 }
 
+function opengraphprotocoltools_embed_youtube($post_id) {
+	$post_array = get_post($post_id);
+	$markup = $post_array->post_content;
+	$markup = apply_filters('the_content',$markup);
+	$data = array();
+
+	// Checks for a standard YouTube embed
+	preg_match('#<object[^>]+>.+?http://www.youtube.com/[ve]/([A-Za-z0-9\-_]+).+?</object>#s', $markup, $matches);
+	
+	// More comprehensive search for YouTube embed, redundant but necessary until more testing is completed
+	if(!isset($matches[1])) {
+		preg_match('#http://www.youtube.com/[ve]/([A-Za-z0-9\-_]+)#s', $markup, $matches);
+	}
+	
+	// Checks for YouTube iframe
+	if(!isset($matches[1])) {
+		preg_match('#http://www.youtube.com/embed/([A-Za-z0-9\-_]+)#s', $markup, $matches);
+	}
+	
+	if ($matches[1]) {
+		$data['og:video']      = 'http://www.youtube.com/embed/'.$matches[1];
+		$data['og:video:type'] = 'text/html';
+	}
+	
+	return $data;
+}
+
 function opengraphprotocoltools_set_data() {
 	global $wp_query;
 	load_opengraphprotocoltools_settings();
@@ -137,6 +164,7 @@ function opengraphprotocoltools_set_data() {
 		$data['og:image'] = opengraphprotocoltools_image_url();
 		$data['og:url'] = get_permalink();
 		$data['og:site_name'] = get_bloginfo('name');
+		$data['og:updated_time'] = get_the_time('U');
 	else:
 		$data['og:title'] = get_bloginfo('name');
 		$data['og:type'] = OGPT_DEFAULT_TYPE;
@@ -145,6 +173,8 @@ function opengraphprotocoltools_set_data() {
 		$data['og:site_name'] = get_bloginfo('name');
 		$data['og:description'] = get_bloginfo('description');
 	endif;
+	
+	$data = array_merge($data,opengraphprotocoltools_embed_youtube(get_the_ID()));
 	
 	global $ogpt_settings;
 	
@@ -195,6 +225,3 @@ function get_opengraphprotocoltools_like_code() {
 
 add_action('wp_head', 'opengraphprotocoltools_add_head');
 add_action('admin_menu', 'opengraphprotocoltools_plugin_menu');
-
-
-?>
