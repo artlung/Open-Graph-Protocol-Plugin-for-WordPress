@@ -42,6 +42,8 @@ else:
 endif;
 ?&gt;</pre>
 
+It would be best if in your theme you also added an attribute in the &lt;html&gt; tag, like this: &lt;html prefix="og: http://ogp.me/ns#"&gt;
+
 
 == Frequently Asked Questions ==
 
