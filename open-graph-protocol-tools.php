@@ -210,7 +210,7 @@ function get_opengraphprotocoltools_headers($data) {
 }
 
 function get_opengraphprotocoltools_tag($property, $content) {
-	return "<meta property=\"{$property}\" content=\"".htmlentities($content)."\" />";
+	return "<meta property=\"{$property}\" content=\"".htmlentities($content, ENT_XHTML, UTF-8)."\" />";
 }
 
 function the_opengraphprotocoltools_like_code() {
