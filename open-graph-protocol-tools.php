@@ -32,16 +32,16 @@ License: GPL2
  */
 $ogpt_settings = array(
 	'fb:admins' => '',
-	'fb:appid' => '',
+	'fb:app_id' => '',
 );
 
 define('OGPT_DEFAULT_TYPE', 'blog');
 define('OGPT_ARTICLE_TYPE', 'article');
-define('OGPT_SETTINGS_KEY_FB_APPID', 'opengraphprotocoltools-fb:appid');
+define('OGPT_SETTINGS_KEY_FB_APP_ID', 'opengraphprotocoltools-fb:app_id');
 define('OGPT_SETTINGS_KEY_FB_ADMINS', 'opengraphprotocoltools-fb:admins');
 
 $opengraphprotocoltools_keys = array(
-	OGPT_SETTINGS_KEY_FB_APPID => 'A Facebook Platform application ID that administers this site.',
+	OGPT_SETTINGS_KEY_FB_APP_ID => 'A Facebook Platform application ID that administers this site.',
 	OGPT_SETTINGS_KEY_FB_ADMINS => 'A comma-separated list of Facebook user IDs that administers this site. You can find your user id by visiting <a href="http://apps.facebook.com/what-is-my-user-id/" target="_blank">http://apps.facebook.com/what-is-my-user-id/</a>',
 );
 
@@ -89,7 +89,7 @@ function opengraphprotocoltools_plugin_options() {
 
 function load_opengraphprotocoltools_settings() {
 	global $ogpt_settings;
-	$ogpt_settings['fb:appid']  = get_option(OGPT_SETTINGS_KEY_FB_APPID);
+	$ogpt_settings['fb:app_id']  = get_option(OGPT_SETTINGS_KEY_FB_APP_ID);
 	$ogpt_settings['fb:admins'] = get_option(OGPT_SETTINGS_KEY_FB_ADMINS);
 }
 
