@@ -10,11 +10,8 @@ This is a plugin to add Open Graph Protocol Data to your WordPress Install, plus
 
 == Description ==
 
-This is a tool to add [Open Graph Protocol](http://opengraphprotocol.org/) Data to your WordPress Install.
+This is a tool to add [Open Graph Protocol](http://opengraphprotocol.org/) Data to the individual content pages of your WordPress Install.
 
-This is very new at this point.
-
-The following data is a description of the metadata that at this point is just a placeholder:
 
 == Installation ==
 
