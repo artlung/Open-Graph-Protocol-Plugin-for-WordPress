@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: artlung
 Donate link: 
-Tags: metadata, opengraphprotocol
+Tags: metadata, opengraphprotocol, facebook
 Requires at least: 2.9
 Tested up to: 3.3.1
 Stable tag: 1.2
@@ -15,14 +15,6 @@ This is a tool to add [Open Graph Protocol](http://opengraphprotocol.org/) Data 
 This is very new at this point.
 
 The following data is a description of the metadata that at this point is just a placeholder:
-
-*   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
-*   "Tags" is a comma separated list of tags that apply to the plugin
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
 
 == Installation ==
 
@@ -49,11 +41,9 @@ It would be best if in your theme you also added an attribute in the &lt;html&gt
 
 = Is there a FAQ? =
 
-Not yet.
+I've gotten some bug reports via <a href="https://github.com/artlung/Open-Graph-Protocol-Plugin-for-WordPress">GitHub</a>, you can report bugs or make comments there.
 
-= What about foo bar? =
 
-No, not that either.
 
 == Screenshots ==
 
@@ -65,3 +55,6 @@ the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1
 
 = 1 =
 * First version.
+
+= 1.2 =
+* Changed instructions, fixes encoding errors for non-English content.
