@@ -152,7 +152,7 @@ function opengraphprotocoltools_set_data() {
 	global $wp_query;
 	load_opengraphprotocoltools_settings();
 	$data = array();
-	if (is_home()) :
+	if (is_front_page() || is_home()) :
 		$data['og:title'] = get_bloginfo('name');
 		$data['og:type'] = OGPT_DEFAULT_TYPE;
 		$data['og:image'] = opengraphprotocoltools_image_url(); 
