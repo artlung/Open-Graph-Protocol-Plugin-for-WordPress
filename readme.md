@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: artlung
-Donate link: 
+Donate link: http://joecrawford.com/plugin-donation
 Tags: metadata, opengraphprotocol, facebook
 Requires at least: 2.9
 Tested up to: 3.3.1
-Stable tag: 1.3
+Stable tag: 1.4
 
 This is a plugin to add Open Graph Protocol Data to your WordPress Install, plus adds the capability to add Facebook "Like" module.
 
