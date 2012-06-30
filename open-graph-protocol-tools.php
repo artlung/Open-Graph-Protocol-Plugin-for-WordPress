@@ -105,13 +105,9 @@ function load_opengraphprotocoltools_settings() {
 	$ogpt_settings['twitter:site'] = '@'.trim(get_option(OGPT_SETTINGS_KEY_TWITTER_SITE),'@ ');
 }
 
-function opengraphprotocoltools_plugin_path() {
-	return get_option('siteurl') .'/wp-content/plugins/' . basename(dirname(__FILE__));
-}
-
 function opengraphprotocoltools_image_url_default() {
 	// default image associated is in the plugin directory named "default.png"
-	return opengraphprotocoltools_plugin_path() . '/default.png';
+	return plugins_url( 'default.png' , __FILE__ );
 }
 
 function opengraphprotocoltools_image() {
