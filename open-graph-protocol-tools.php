@@ -159,12 +159,16 @@ function opengraphprotocoltools_embed_youtube($post_id) {
 	}
 	
 	if ($matches[1]) {
-		$data['og:image']            = 'http://img.youtube.com/vi/' . $matches[1] . '/0.jpg';
-		$data['og:video']            = 'http://www.youtube.com/embed/'.$matches[1];
-		$data['og:video:secure_url'] = 'https://www.youtube.com/embed/'.$matches[1];
-		$data['twitter:player']      = 'https://www.youtube.com/embed/'.$matches[1];
-		$data['og:video:type']       = 'text/html';
-		$data['twitter:card']        = 'player';
+		$data['og:image']              = 'http://img.youtube.com/vi/' . $matches[1] . '/0.jpg';
+		$data['og:video']              = 'http://www.youtube.com/embed/'.$matches[1];
+		$data['og:video:secure_url']   = 'https://www.youtube.com/embed/'.$matches[1];
+		$data['og:image:width']        = '480';
+		$data['og:image:height']       = '360';
+		$data['twitter:player']        = 'https://www.youtube.com/embed/'.$matches[1];
+		$data['og:video:type']         = 'text/html';
+		$data['twitter:card']          = 'player';
+		$data['twitter:player:width']  = '480';
+		$data['twitter:player:height'] = '360';
 	}
 	
 	return $data;
