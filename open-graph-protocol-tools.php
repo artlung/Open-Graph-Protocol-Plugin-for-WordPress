@@ -175,22 +175,22 @@ function opengraphprotocoltools_set_data() {
 		$data['og:title'] = get_bloginfo('name');
 		$data['og:type'] = OGPT_DEFAULT_TYPE;
 		$data['og:url'] = get_bloginfo('url');
-		$data['og:site_name'] = get_bloginfo('name');
 		$data['og:description'] = get_bloginfo('description');
 	elseif (is_single() || is_page()):
 		$data['og:title'] = get_the_title();
 		$data['og:type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE;
 		$data['og:url'] = get_permalink();
-		$data['og:site_name'] = get_bloginfo('name');
 		$data['og:updated_time'] = get_the_time('U');
 	else:
 		$data['og:title'] = get_bloginfo('name');
 		$data['og:type'] = OGPT_DEFAULT_TYPE;
 		$data['og:url'] = get_bloginfo('url');
-		$data['og:site_name'] = get_bloginfo('name');
 		$data['og:description'] = get_bloginfo('description');
 		$data['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	endif;
+
+	$data['og:site_name'] = get_bloginfo('name');
+	$data['og:locale']    = get_locale();
 
 	$data = array_merge($data,opengraphprotocoltools_image());
 	$data = array_merge($data,opengraphprotocoltools_embed_youtube(get_the_ID()));
