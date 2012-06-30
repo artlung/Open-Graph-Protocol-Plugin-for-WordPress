@@ -94,7 +94,8 @@ function opengraphprotocoltools_user_contactmethods($user_contactmethods){
 }
 
 function get_opengraphprotocoltools_author_twitter(){
-	return strtr(get_the_author_meta('twitter'),'@ ','');
+	global $post;
+	return trim(get_the_author_meta('twitter',$post->post_author),'@ ');
 }
 
 function load_opengraphprotocoltools_settings() {
@@ -129,6 +130,7 @@ function opengraphprotocoltools_image() {
 			$data['og:image'] = $opengraphprotocoltools_image[0];
 			$data['og:image:width'] = $opengraphprotocoltools_image[1];
 			$data['og:image:height'] = $opengraphprotocoltools_image[2];
+			$data['twitter:card'] = 'photo';
 			return $data;
 		}
 	}
@@ -162,6 +164,7 @@ function opengraphprotocoltools_embed_youtube($post_id) {
 		$data['og:video:secure_url'] = 'https://www.youtube.com/embed/'.$matches[1];
 		$data['twitter:player']      = 'https://www.youtube.com/embed/'.$matches[1];
 		$data['og:video:type']       = 'text/html';
+		$data['twitter:card']        = 'player';
 	}
 	
 	return $data;
@@ -181,6 +184,7 @@ function opengraphprotocoltools_set_data() {
 		$data['og:type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE;
 		$data['og:url'] = get_permalink();
 		$data['og:updated_time'] = get_the_time('U');
+		$data['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	else:
 		$data['og:title'] = get_bloginfo('name');
 		$data['og:type'] = OGPT_DEFAULT_TYPE;
@@ -191,6 +195,7 @@ function opengraphprotocoltools_set_data() {
 
 	$data['og:site_name'] = get_bloginfo('name');
 	$data['og:locale']    = get_locale();
+	$data['twitter:card'] = 'summary';
 
 	$data = array_merge($data,opengraphprotocoltools_image());
 	$data = array_merge($data,opengraphprotocoltools_embed_youtube(get_the_ID()));
@@ -202,6 +207,9 @@ function opengraphprotocoltools_set_data() {
 			$data[$key] = $value;
 		}
 	}
+
+	ksort($data); // For easier debugging
+
 	return $data;
 }
 
