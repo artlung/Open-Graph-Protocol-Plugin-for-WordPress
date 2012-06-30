@@ -126,7 +126,6 @@ function opengraphprotocoltools_image() {
 	if( $images = get_children( $args ) ) {
 		foreach( $images as $image ) {
 			$opengraphprotocoltools_image = wp_get_attachment_image_src( $image->ID, 'medium' );
-			$data['image_src'] = $opengraphprotocoltools_image[0];
 			$data['og:image'] = $opengraphprotocoltools_image[0];
 			$data['og:image:width'] = $opengraphprotocoltools_image[1];
 			$data['og:image:height'] = $opengraphprotocoltools_image[2];
@@ -215,6 +214,7 @@ function get_opengraphprotocoltools_headers($data) {
 	}
 	$out = array();
 	$out[] = "\n<!-- BEGIN: Open Graph Protocol Tools: http://opengraphprotocol.org/ for more info -->";
+
 	foreach ($data as $property => $content) {
 		if ($content != '') {
 			$out[] = get_opengraphprotocoltools_tag($property, $content);
