@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: artlung
+Contributors: artlung,pathawks
 Donate link: 
 Tags: metadata, opengraphprotocol, facebook
 Requires at least: 2.9
