@@ -95,14 +95,14 @@ function opengraphprotocoltools_user_contactmethods($user_contactmethods){
 
 function get_opengraphprotocoltools_author_twitter(){
 	global $post;
-	return trim(get_the_author_meta('twitter',$post->post_author),'@ ');
+	return '@'.trim(get_the_author_meta('twitter',$post->post_author),'@ ');
 }
 
 function load_opengraphprotocoltools_settings() {
 	global $ogpt_settings;
 	$ogpt_settings['fb:app_id']  = get_option(OGPT_SETTINGS_KEY_FB_APP_ID);
 	$ogpt_settings['fb:admins'] = get_option(OGPT_SETTINGS_KEY_FB_ADMINS);
-	$ogpt_settings['twitter:site'] = get_option(OGPT_SETTINGS_KEY_TWITTER_SITE);
+	$ogpt_settings['twitter:site'] = '@'.trim(get_option(OGPT_SETTINGS_KEY_TWITTER_SITE),'@ ');
 }
 
 function opengraphprotocoltools_plugin_path() {
