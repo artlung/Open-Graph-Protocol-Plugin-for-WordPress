@@ -208,6 +208,11 @@ function opengraphprotocoltools_add_head() {
 	echo get_opengraphprotocoltools_headers($data);
 }
 
+function opengraphprotocoltools_html_prefix($html){
+  $html = $html.' prefix="og: http://ogp.me/ns#"';
+  return $html;
+}
+
 function get_opengraphprotocoltools_headers($data) {
 	if (!count($data)) {
 		return;
@@ -242,5 +247,6 @@ function get_opengraphprotocoltools_like_code() {
 }
 
 add_filter('user_contactmethods', 'opengraphprotocoltools_user_contactmethods');
+add_filter('language_attributes', 'opengraphprotocoltools_html_prefix');
 add_action('wp_head', 'opengraphprotocoltools_add_head');
 add_action('admin_menu', 'opengraphprotocoltools_plugin_menu');
