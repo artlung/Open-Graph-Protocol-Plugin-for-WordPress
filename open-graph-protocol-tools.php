@@ -139,6 +139,34 @@ function opengraphprotocoltools_image() {
 	return $data;
 }
 
+function opengraphprotocoltools_audio() {
+	global $post;
+	$data = array();
+
+	$args = array(
+		'post_type' => 'attachment',
+		'post_mime_type' => 'audio/mpeg',
+		'post_parent' => $post->ID,
+	);
+
+	if( $audios = get_children( $args ) ) {
+		foreach( $audios as $audio ) {
+			$opengraphprotocoltools_audio_url = wp_get_attachment_url( $audio->ID );
+			$data['og:audio'] = $opengraphprotocoltools_audio_url;
+			$data['twitter:player:stream'] = $opengraphprotocoltools_audio_url;
+			$data['twitter:player:stream:content_type'] = $audio->post_mime_type;
+
+//			$data['twitter:card'] = 'player';
+//			We haven't yet provided enough data for Twitter to display a player.
+//			We need to also provide an iframe player, which must work over HTTPS
+//			We also need to provide a fallback image that is the same size as the iframe player.
+
+			return $data;
+		}
+	}
+	return $data;
+}
+
 function opengraphprotocoltools_embed_youtube($post_id) {
 	$post_array = get_post($post_id);
 	$markup = $post_array->post_content;
@@ -202,6 +230,7 @@ function opengraphprotocoltools_set_data() {
 	$data['twitter:card'] = 'summary';
 
 	$data = array_merge($data,opengraphprotocoltools_image());
+	$data = array_merge($data,opengraphprotocoltools_audio());
 	$data = array_merge($data,opengraphprotocoltools_embed_youtube(get_the_ID()));
 	
 	global $ogpt_settings;
