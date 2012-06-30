@@ -39,10 +39,12 @@ define('OGPT_DEFAULT_TYPE', 'blog');
 define('OGPT_ARTICLE_TYPE', 'article');
 define('OGPT_SETTINGS_KEY_FB_APP_ID', 'opengraphprotocoltools-fb:app_id');
 define('OGPT_SETTINGS_KEY_FB_ADMINS', 'opengraphprotocoltools-fb:admins');
+define('OGPT_SETTINGS_KEY_TWITTER_SITE', 'opengraphprotocoltools-twitter:site');
 
 $opengraphprotocoltools_keys = array(
 	OGPT_SETTINGS_KEY_FB_APP_ID => 'A Facebook Platform application (fb:app_id, formerly fb:appid) ID that administers this site.',
 	OGPT_SETTINGS_KEY_FB_ADMINS => 'A comma-separated list of Facebook user IDs that administers this site. You can find your user id by visiting <a href="http://apps.facebook.com/what-is-my-user-id/" target="_blank">http://apps.facebook.com/what-is-my-user-id/</a>',
+	OGPT_SETTINGS_KEY_TWITTER_SITE => 'The Twitter @username of the entire site, if there is one.',
 );
 
 
@@ -86,11 +88,20 @@ function opengraphprotocoltools_plugin_options() {
 	echo '</div>';
 }
 
+function opengraphprotocoltools_user_contactmethods($user_contactmethods){
+  $user_contactmethods['twitter'] = 'Twitter Username';
+  return $user_contactmethods;
+}
+
+function get_opengraphprotocoltools_author_twitter(){
+	return strtr(get_the_author_meta('twitter'),'@ ','');
+}
 
 function load_opengraphprotocoltools_settings() {
 	global $ogpt_settings;
 	$ogpt_settings['fb:app_id']  = get_option(OGPT_SETTINGS_KEY_FB_APP_ID);
 	$ogpt_settings['fb:admins'] = get_option(OGPT_SETTINGS_KEY_FB_ADMINS);
+	$ogpt_settings['twitter:site'] = get_option(OGPT_SETTINGS_KEY_TWITTER_SITE);
 }
 
 function opengraphprotocoltools_plugin_path() {
@@ -177,8 +188,9 @@ function opengraphprotocoltools_set_data() {
 		$data['og:url'] = get_bloginfo('url');
 		$data['og:site_name'] = get_bloginfo('name');
 		$data['og:description'] = get_bloginfo('description');
+		$data['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	endif;
-	
+
 	$data = array_merge($data,opengraphprotocoltools_image());
 	$data = array_merge($data,opengraphprotocoltools_embed_youtube(get_the_ID()));
 	
@@ -229,5 +241,6 @@ function get_opengraphprotocoltools_like_code() {
 	return $out;
 }
 
+add_filter('user_contactmethods', 'opengraphprotocoltools_user_contactmethods');
 add_action('wp_head', 'opengraphprotocoltools_add_head');
 add_action('admin_menu', 'opengraphprotocoltools_plugin_menu');
