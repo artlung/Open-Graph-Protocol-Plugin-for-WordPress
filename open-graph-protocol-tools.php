@@ -102,8 +102,9 @@ function opengraphprotocoltools_image_url_default() {
 	return opengraphprotocoltools_plugin_path() . '/default.png';
 }
 
-function opengraphprotocoltools_image_url() {
+function opengraphprotocoltools_image() {
 	global $post;
+	$data = array();
 
 	$args = array(
 		'post_type' => 'attachment',
@@ -113,11 +114,16 @@ function opengraphprotocoltools_image_url() {
 
 	if( $images = get_children( $args ) ) {
 		foreach( $images as $image ) {
-			return array_shift(wp_get_attachment_image_src( $image->ID, 'medium' ));
+			$opengraphprotocoltools_image = wp_get_attachment_image_src( $image->ID, 'medium' );
+			$data['og:image'] = $opengraphprotocoltools_image[0];
+			$data['og:image:width'] = $opengraphprotocoltools_image[1];
+			$data['og:image:height'] = $opengraphprotocoltools_image[2];
+			return $data;
 		}
 	}
 	// if no images, return the default
-	return opengraphprotocoltools_image_url_default();
+	$data['og:image'] = opengraphprotocoltools_image_url_default();
+	return $data;
 }
 
 function opengraphprotocoltools_embed_youtube($post_id) {
@@ -155,26 +161,24 @@ function opengraphprotocoltools_set_data() {
 	if (is_front_page() || is_home()) :
 		$data['og:title'] = get_bloginfo('name');
 		$data['og:type'] = OGPT_DEFAULT_TYPE;
-		$data['og:image'] = opengraphprotocoltools_image_url(); 
 		$data['og:url'] = get_bloginfo('url');
 		$data['og:site_name'] = get_bloginfo('name');
 		$data['og:description'] = get_bloginfo('description');
 	elseif (is_single() || is_page()):
 		$data['og:title'] = get_the_title();
-		$data['og:type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE; 
-		$data['og:image'] = opengraphprotocoltools_image_url();
+		$data['og:type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE;
 		$data['og:url'] = get_permalink();
 		$data['og:site_name'] = get_bloginfo('name');
 		$data['og:updated_time'] = get_the_time('U');
 	else:
 		$data['og:title'] = get_bloginfo('name');
 		$data['og:type'] = OGPT_DEFAULT_TYPE;
-		$data['og:image'] = opengraphprotocoltools_image_url(); 
 		$data['og:url'] = get_bloginfo('url');
 		$data['og:site_name'] = get_bloginfo('name');
 		$data['og:description'] = get_bloginfo('description');
 	endif;
 	
+	$data = array_merge($data,opengraphprotocoltools_image());
 	$data = array_merge($data,opengraphprotocoltools_embed_youtube(get_the_ID()));
 	
 	global $ogpt_settings;
