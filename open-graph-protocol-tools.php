@@ -214,7 +214,7 @@ function opengraphprotocoltools_set_data() {
 	elseif (is_single() || is_page()):
 		$meta_tags['http://ogp.me/ns#title'] = get_the_title();
 		$meta_tags['http://ogp.me/ns#type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE;
-		$meta_tags['http://ogp.me/ns#url'] = get_permalink();
+		$meta_tags['http://ogp.me/ns#url'] = apply_filters( 'rel_canonical', get_permalink() );
 		$meta_tags['http://ogp.me/ns/article#modified_time'] = get_the_time('U');
 		$meta_tags['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	else:
