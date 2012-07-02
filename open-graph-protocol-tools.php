@@ -116,7 +116,7 @@ function opengraphprotocoltools_image_url_default() {
 
 function opengraphprotocoltools_image() {
 	global $post;
-	$data = array();
+	$meta_tags = array();
 
 	$args = array(
 		'post_type' => 'attachment',
@@ -127,21 +127,21 @@ function opengraphprotocoltools_image() {
 	if( $images = get_children( $args ) ) {
 		foreach( $images as $image ) {
 			$opengraphprotocoltools_image = wp_get_attachment_image_src( $image->ID, 'medium' );
-			$data['http://ogp.me/ns#image'] = $opengraphprotocoltools_image[0];
-			$data['http://ogp.me/ns#image:width'] = $opengraphprotocoltools_image[1];
-			$data['http://ogp.me/ns#image:height'] = $opengraphprotocoltools_image[2];
-			$data['twitter:card'] = 'photo';
-			return $data;
+			$meta_tags['http://ogp.me/ns#image'] = $opengraphprotocoltools_image[0];
+			$meta_tags['http://ogp.me/ns#image:width'] = $opengraphprotocoltools_image[1];
+			$meta_tags['http://ogp.me/ns#image:height'] = $opengraphprotocoltools_image[2];
+			$meta_tags['twitter:card'] = 'photo';
+			return $meta_tags;
 		}
 	}
 	// if no images, return the default
-	$data['http://ogp.me/ns#image'] = opengraphprotocoltools_image_url_default();
-	return $data;
+	$meta_tags['http://ogp.me/ns#image'] = opengraphprotocoltools_image_url_default();
+	return $meta_tags;
 }
 
 function opengraphprotocoltools_audio() {
 	global $post;
-	$data = array();
+	$meta_tags = array();
 
 	$args = array(
 		'post_type' => 'attachment',
@@ -152,26 +152,26 @@ function opengraphprotocoltools_audio() {
 	if( $audios = get_children( $args ) ) {
 		foreach( $audios as $audio ) {
 			$opengraphprotocoltools_audio_url = wp_get_attachment_url( $audio->ID );
-			$data['http://ogp.me/ns#audio'] = $opengraphprotocoltools_audio_url;
-			$data['twitter:player:stream'] = $opengraphprotocoltools_audio_url;
-			$data['twitter:player:stream:content_type'] = $audio->post_mime_type;
+			$meta_tags['http://ogp.me/ns#audio'] = $opengraphprotocoltools_audio_url;
+			$meta_tags['twitter:player:stream'] = $opengraphprotocoltools_audio_url;
+			$meta_tags['twitter:player:stream:content_type'] = $audio->post_mime_type;
 
-//			$data['twitter:card'] = 'player';
+//			$meta_tags['twitter:card'] = 'player';
 //			We haven't yet provided enough data for Twitter to display a player.
 //			We need to also provide an iframe player, which must work over HTTPS
 //			We also need to provide a fallback image that is the same size as the iframe player.
 
-			return $data;
+			return $meta_tags;
 		}
 	}
-	return $data;
+	return $meta_tags;
 }
 
 function opengraphprotocoltools_embed_youtube($post_id) {
 	$post_array = get_post($post_id);
 	$markup = $post_array->post_content;
 	$markup = apply_filters('the_content',$markup);
-	$data = array();
+	$meta_tags = array();
 
 	// Checks for a standard YouTube embed
 	preg_match('#<object[^>]+>.+?http://www.youtube.com/[ve]/([A-Za-z0-9\-_]+).+?</object>#s', $markup, $matches);
@@ -187,65 +187,65 @@ function opengraphprotocoltools_embed_youtube($post_id) {
 	}
 	
 	if ($matches[1]) {
-		$data['http://ogp.me/ns#image']              = 'http://img.youtube.com/vi/' . $matches[1] . '/0.jpg';
-		$data['http://ogp.me/ns#video']              = 'http://www.youtube.com/embed/'.$matches[1];
-		$data['http://ogp.me/ns#video:secure_url']   = 'https://www.youtube.com/embed/'.$matches[1];
-		$data['http://ogp.me/ns#image:width']        = '480';
-		$data['http://ogp.me/ns#image:height']       = '360';
-		$data['http://ogp.me/ns#video:type']         = 'text/html';
-		$data['twitter:card']          = 'player';
-		$data['twitter:player']        = 'https://www.youtube.com/embed/'.$matches[1];
-		$data['twitter:player:width']  = '480';
-		$data['twitter:player:height'] = '360';
+		$meta_tags['http://ogp.me/ns#image']              = 'http://img.youtube.com/vi/' . $matches[1] . '/0.jpg';
+		$meta_tags['http://ogp.me/ns#video']              = 'http://www.youtube.com/embed/'.$matches[1];
+		$meta_tags['http://ogp.me/ns#video:secure_url']   = 'https://www.youtube.com/embed/'.$matches[1];
+		$meta_tags['http://ogp.me/ns#image:width']        = '480';
+		$meta_tags['http://ogp.me/ns#image:height']       = '360';
+		$meta_tags['twitter:player']        = 'https://www.youtube.com/embed/'.$matches[1];
+		$meta_tags['http://ogp.me/ns#video:type']         = 'text/html';
+		$meta_tags['twitter:card']          = 'player';
+		$meta_tags['twitter:player:width']  = '480';
+		$meta_tags['twitter:player:height'] = '360';
 	}
 	
-	return $data;
+	return $meta_tags;
 }
 
 function opengraphprotocoltools_set_data() {
 	global $wp_query;
 	global $ogpt_settings;
 	load_opengraphprotocoltools_settings();
-	$data = $ogpt_settings;
+	$meta_tags = $ogpt_settings;
 	if (is_front_page() || is_home()) :
-		$data['http://ogp.me/ns#title'] = get_bloginfo('name');
-		$data['http://ogp.me/ns#url'] = get_bloginfo('url');
-		$data['http://ogp.me/ns#description'] = get_bloginfo('description');
+		$meta_tags['http://ogp.me/ns#title'] = get_bloginfo('name');
+		$meta_tags['http://ogp.me/ns#url'] = get_bloginfo('url');
+		$meta_tags['http://ogp.me/ns#description'] = get_bloginfo('description');
 	elseif (is_single() || is_page()):
-		$data['http://ogp.me/ns#title'] = get_the_title();
-		$data['http://ogp.me/ns#type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE;
-		$data['http://ogp.me/ns#url'] = get_permalink();
-		$data['http://ogp.me/ns/article#modified_time'] = get_the_time('U');
-		$data['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
+		$meta_tags['http://ogp.me/ns#title'] = get_the_title();
+		$meta_tags['http://ogp.me/ns#type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE;
+		$meta_tags['http://ogp.me/ns#url'] = get_permalink();
+		$meta_tags['http://ogp.me/ns/article#modified_time'] = get_the_time('U');
+		$meta_tags['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	else:
-		$data['http://ogp.me/ns#title'] = get_bloginfo('name');
-		$data['http://ogp.me/ns#url'] = get_bloginfo('url');
-		$data['http://ogp.me/ns#description'] = get_bloginfo('description');
-		$data['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
+		$meta_tags['http://ogp.me/ns#title'] = get_bloginfo('name');
+		$meta_tags['http://ogp.me/ns#url'] = get_bloginfo('url');
+		$meta_tags['http://ogp.me/ns#description'] = get_bloginfo('description');
+		$meta_tags['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	endif;
 
-	$data = array_merge($data,opengraphprotocoltools_image());
-	$data = array_merge($data,opengraphprotocoltools_audio());
-	$data = array_merge($data,opengraphprotocoltools_embed_youtube(get_the_ID()));
+	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_image());
+	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_audio());
+	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_embed_youtube(get_the_ID()));
 
-	ksort($data); // For easier debugging
+	ksort($meta_tags); // For easier debugging
 
-	return $data;
+	return $meta_tags;
 }
 
 function opengraphprotocoltools_add_head() {
-	$data = opengraphprotocoltools_set_data();
-	echo get_opengraphprotocoltools_headers($data);
+	$meta_tags = opengraphprotocoltools_set_data();
+	echo get_opengraphprotocoltools_headers($meta_tags);
 }
 
-function get_opengraphprotocoltools_headers($data) {
-	if (!count($data)) {
+function get_opengraphprotocoltools_headers($meta_tags) {
+	if (!count($meta_tags)) {
 		return;
 	}
 	$out = array();
 	$out[] = "\n<!-- BEGIN: Open Graph Protocol Tools: http://opengraphprotocol.org/ for more info -->";
 
-	foreach ($data as $property => $content) {
+	foreach ($meta_tags as $property => $content) {
 		if ($content != '') {
 			$out[] = get_opengraphprotocoltools_tag($property, $content);
 		} else {
@@ -267,8 +267,8 @@ function the_opengraphprotocoltools_like_code() {
 }
 
 function get_opengraphprotocoltools_like_code() {
-	$data = opengraphprotocoltools_set_data();
-	$url = rawurlencode($data['http://ogp.me/ns#url']);
+	$meta_tags = opengraphprotocoltools_set_data();
+	$url = rawurlencode($meta_tags['http://ogp.me/ns#url']);
 	$out .= "<!--begin facebook like code--><div align=\"center\" style=\"text-align: center;padding: 10px;\" class=\"opengraphprotocoltools-div\"><iframe src=\"http://www.facebook.com/plugins/like.php?href={$url}&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light\" scrolling=\"no\" frameborder=\"0\" allowTransparency=\"true\" style=\"border:none; overflow:hidden; width:450px; height:80px\"></iframe></div><!--end facebook like code-->";
 	return $out;
 }
