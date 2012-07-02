@@ -249,7 +249,7 @@ function get_opengraphprotocoltools_headers($data) {
 		if ($content != '') {
 			$out[] = get_opengraphprotocoltools_tag($property, $content);
 		} else {
-			$out[] = "<!--{$property} value was blank-->";
+//			$out[] = "<!--{$property} value was blank-->";
 		}
 	}
 	$out[] = "<!-- End: Open Graph Protocol Tools-->\n";
