@@ -167,6 +167,13 @@ function opengraphprotocoltools_audio() {
 	return $meta_tags;
 }
 
+function opengraphprotocoltools_video() {
+	global $post;
+	$meta_tags = array();
+	$meta_tags = opengraphprotocoltools_embed_youtube($post->ID);
+	return $meta_tags;
+}
+
 function opengraphprotocoltools_embed_youtube($post_id) {
 	$post_array = get_post($post_id);
 	$markup = $post_array->post_content;
@@ -227,7 +234,7 @@ function opengraphprotocoltools_set_data() {
 
 	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_image());
 	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_audio());
-	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_embed_youtube(get_the_ID()));
+	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_video());
 
 	ksort($meta_tags); // For easier debugging
 
