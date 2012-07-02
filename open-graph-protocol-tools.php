@@ -219,22 +219,27 @@ function opengraphprotocoltools_set_data() {
 		$meta_tags['http://ogp.me/ns#url'] = get_bloginfo('url');
 		$meta_tags['http://ogp.me/ns#description'] = get_bloginfo('description');
 	elseif (is_single() || is_page()):
-		$meta_tags['http://ogp.me/ns#title'] = get_the_title();
+		$post_type = get_post_type();
+		if ( post_type_supports( $post_type, 'title' ) )
+			$meta_tags['http://ogp.me/ns#title'] = get_the_title();
 		$meta_tags['http://ogp.me/ns#type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE;
 		$meta_tags['http://ogp.me/ns#url'] = apply_filters( 'rel_canonical', get_permalink() );
 		$meta_tags['http://ogp.me/ns/article#published_time'] = get_the_date('c');
 		$meta_tags['http://ogp.me/ns/article#modified_time'] = get_the_modified_date('c');
+		if ( post_type_supports( $post_type, 'author' ) && isset( $post->post_author ) )
+			$meta_tags['http://ogp.me/ns/article#author'] = get_author_posts_url( $post->post_author );
 		$meta_tags['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
+		
+		$meta_tags = array_merge($meta_tags,opengraphprotocoltools_image());
+		$meta_tags = array_merge($meta_tags,opengraphprotocoltools_audio());
+		$meta_tags = array_merge($meta_tags,opengraphprotocoltools_video());
+		
 	else:
 		$meta_tags['http://ogp.me/ns#title'] = get_bloginfo('name');
 		$meta_tags['http://ogp.me/ns#url'] = get_bloginfo('url');
 		$meta_tags['http://ogp.me/ns#description'] = get_bloginfo('description');
 		$meta_tags['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	endif;
-
-	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_image());
-	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_audio());
-	$meta_tags = array_merge($meta_tags,opengraphprotocoltools_video());
 
 	ksort($meta_tags); // For easier debugging
 
@@ -254,6 +259,9 @@ function get_opengraphprotocoltools_headers($meta_tags) {
 	}
 	$out = array();
 	$out[] = "\n<!-- BEGIN: Open Graph Protocol Tools: http://opengraphprotocol.org/ for more info -->";
+	
+	if ( $meta_tags['twitter:site'] = '@' )
+		$meta_tags['twitter:site'] = '';
 
 	foreach ($meta_tags as $property => $content) {
 		$out[] = get_opengraphprotocoltools_tag($property, $content);
