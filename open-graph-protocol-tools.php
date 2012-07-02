@@ -234,7 +234,9 @@ function opengraphprotocoltools_set_data() {
 }
 
 function opengraphprotocoltools_add_head() {
+	global $post;
 	$meta_tags = opengraphprotocoltools_set_data();
+	$meta_tags = apply_filters( 'fb_meta_tags', $meta_tags, $post );
 	echo get_opengraphprotocoltools_headers($meta_tags);
 }
 
@@ -246,17 +248,16 @@ function get_opengraphprotocoltools_headers($meta_tags) {
 	$out[] = "\n<!-- BEGIN: Open Graph Protocol Tools: http://opengraphprotocol.org/ for more info -->";
 
 	foreach ($meta_tags as $property => $content) {
-		if ($content != '') {
-			$out[] = get_opengraphprotocoltools_tag($property, $content);
-		} else {
-//			$out[] = "<!--{$property} value was blank-->";
-		}
+		$out[] = get_opengraphprotocoltools_tag($property, $content);
 	}
 	$out[] = "<!-- End: Open Graph Protocol Tools-->\n";
 	return implode("\n", $out);
 }
 
 function get_opengraphprotocoltools_tag($property, $content) {
+	if ( empty( $property ) || empty( $content ) )
+		return;
+
 	if ( strstr( $property, 'twitter:' ) )
 		return "<meta name=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
 	return "<meta property=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
