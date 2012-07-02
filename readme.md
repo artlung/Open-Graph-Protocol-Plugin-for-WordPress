@@ -1,17 +1,16 @@
 === Plugin Name ===
 Contributors: artlung,pathawks
-Donate link: 
+Donate link: http://joecrawford.com/plugin-donation
 Tags: metadata, opengraphprotocol, facebook
 Requires at least: 2.9
-Tested up to: 3.3.1
-Stable tag: 1.3
+Tested up to: 3.4.1
+Stable tag: 1.5
 
-This is a plugin to add Open Graph Protocol Data to your WordPress Install, plus adds the capability to add Facebook "Like" module.
+Adds Open Graph Protocol meta to the individual pages and posts of your WordPress Install. 
 
 == Description ==
 
-This is a tool to add [Open Graph Protocol](http://opengraphprotocol.org/) Data to the individual content pages of your WordPress Install.
-
+Adds [Open Graph Protocol](http://opengraphprotocol.org/) meta tags to individual content pages of your WordPress install. Works in coordination with "Like" buttons and "share" inside Facebook and other consumers of OGP metadata.
 
 == Installation ==
 
@@ -40,13 +39,13 @@ It would be best if in your theme you also added an attribute in the &lt;html&gt
 
 I've gotten some bug reports via <a href="https://github.com/artlung/Open-Graph-Protocol-Plugin-for-WordPress">GitHub</a>, you can report bugs or make comments there.
 
+= For more information about Open Graph Protocol =
 
+Visit [Open Graph Protocol](http://opengraphprotocol.org/).
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
-2. This is the second screen shot
+None.
 
 == Changelog ==
 
