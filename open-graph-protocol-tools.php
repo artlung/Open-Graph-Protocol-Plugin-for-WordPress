@@ -271,6 +271,8 @@ function get_opengraphprotocoltools_headers($data) {
 }
 
 function get_opengraphprotocoltools_tag($property, $content) {
+	if ( strstr( $property, 'twitter:' ) )
+		return "<meta name=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
 	return "<meta property=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
 }
 
