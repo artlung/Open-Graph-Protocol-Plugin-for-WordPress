@@ -127,9 +127,11 @@ function opengraphprotocoltools_image() {
 	if( $images = get_children( $args ) ) {
 		foreach( $images as $image ) {
 			$opengraphprotocoltools_image = wp_get_attachment_image_src( $image->ID, 'medium' );
-			$meta_tags['http://ogp.me/ns#image'] = $opengraphprotocoltools_image[0];
-			$meta_tags['http://ogp.me/ns#image:width'] = $opengraphprotocoltools_image[1];
-			$meta_tags['http://ogp.me/ns#image:height'] = $opengraphprotocoltools_image[2];
+			$image_tags = array();
+			$image_tags['url']    = $opengraphprotocoltools_image[0];
+			$image_tags['width']  = $opengraphprotocoltools_image[1];
+			$image_tags['height'] = $opengraphprotocoltools_image[2];
+			$meta_tags['http://ogp.me/ns#image'] = array($image_tags);
 			$meta_tags['twitter:card'] = 'photo';
 			return $meta_tags;
 		}
@@ -153,8 +155,8 @@ function opengraphprotocoltools_audio() {
 		foreach( $audios as $audio ) {
 			$opengraphprotocoltools_audio_url = wp_get_attachment_url( $audio->ID );
 			$meta_tags['http://ogp.me/ns#audio'] = $opengraphprotocoltools_audio_url;
-			$meta_tags['twitter:player:stream'] = $opengraphprotocoltools_audio_url;
-			$meta_tags['twitter:player:stream:content_type'] = $audio->post_mime_type;
+			$meta_tags['twitter:player:stream'] = array( 'url' => $opengraphprotocoltools_audio_url);
+			$meta_tags['twitter:player:stream']['content_type'] = $audio->post_mime_type;
 
 //			$meta_tags['twitter:card'] = 'player';
 //			We haven't yet provided enough data for Twitter to display a player.
@@ -194,22 +196,26 @@ function opengraphprotocoltools_embed_youtube($post_id) {
 	}
 	
 	if ($matches[1]) {
-		$meta_tags['http://ogp.me/ns#image']              = 'http://img.youtube.com/vi/' . $matches[1] . '/0.jpg';
-		$meta_tags['http://ogp.me/ns#video']              = 'http://www.youtube.com/embed/'.$matches[1];
-		$meta_tags['http://ogp.me/ns#video:secure_url']   = 'https://www.youtube.com/embed/'.$matches[1];
-		$meta_tags['http://ogp.me/ns#image:width']        = '480';
-		$meta_tags['http://ogp.me/ns#image:height']       = '360';
-		$meta_tags['twitter:player']        = 'https://www.youtube.com/embed/'.$matches[1];
-		$meta_tags['http://ogp.me/ns#video:type']         = 'text/html';
-		$meta_tags['twitter:card']          = 'player';
-		$meta_tags['twitter:player:width']  = '480';
-		$meta_tags['twitter:player:height'] = '360';
+		$meta_tags['http://ogp.me/ns#image'] = array();
+		$meta_tags['http://ogp.me/ns#video'] = array();
+		$meta_tags['twitter:player']         = array();
+		$meta_tags['http://ogp.me/ns#image']['url']        = 'http://img.youtube.com/vi/' . $matches[1] . '/0.jpg';
+		$meta_tags['http://ogp.me/ns#image']['width']      = '480';
+		$meta_tags['http://ogp.me/ns#image']['height']     = '360';
+		$meta_tags['http://ogp.me/ns#video']['url']        = 'http://www.youtube.com/embed/'.$matches[1];
+		$meta_tags['http://ogp.me/ns#video']['secure_url'] = 'https://www.youtube.com/embed/'.$matches[1];
+		$meta_tags['http://ogp.me/ns#video']['type']       = 'text/html';
+		$meta_tags['twitter:card']                         = 'player';
+		$meta_tags['twitter:player']['url']                = 'https://www.youtube.com/embed/'.$matches[1];
+		$meta_tags['twitter:player']['width']              = '480';
+		$meta_tags['twitter:player']['height']             = '360';
 	}
 	
 	return $meta_tags;
 }
 
 function opengraphprotocoltools_set_data() {
+	global $post;
 	global $wp_query;
 	global $ogpt_settings;
 	load_opengraphprotocoltools_settings();
@@ -281,9 +287,24 @@ function get_opengraphprotocoltools_tag($property, $content) {
 	if ( empty( $property ) || empty( $content ) )
 		return;
 
-	if ( strstr( $property, 'twitter:' ) )
-		return "<meta name=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
-	return "<meta property=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
+	// array of property values or structured property
+	if ( is_array( $content ) ) {
+		$meta_tags = array();
+		foreach( $content as $structured_property => $content_value ) {
+			// handle numeric keys from regular arrays
+			// account for the special structured property of url which is equivalent to the root tag and sets up the structure
+			if ( ! is_string( $structured_property ) || $structured_property === 'url' )
+				$meta_tags[] = get_opengraphprotocoltools_tag( $property, $content_value );
+			else
+				$meta_tags[] = get_opengraphprotocoltools_tag( $property . ':' . $structured_property, $content_value );
+		}
+		return implode("\n",$meta_tags);
+	}
+	else {
+		if ( strstr( $property, 'twitter:' ) )
+			return "<meta name=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
+		return "<meta property=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
+	}
 }
 
 function the_opengraphprotocoltools_like_code() {
