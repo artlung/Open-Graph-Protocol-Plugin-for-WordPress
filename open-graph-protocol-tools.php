@@ -100,9 +100,13 @@ function get_opengraphprotocoltools_author_twitter(){
 
 function load_opengraphprotocoltools_settings() {
 	global $ogpt_settings;
-	$ogpt_settings['http://ogp.me/ns/fb#app_id']  = get_option(OGPT_SETTINGS_KEY_FB_APP_ID);
+	$ogpt_settings['http://ogp.me/ns/fb#app_id'] = get_option(OGPT_SETTINGS_KEY_FB_APP_ID);
 	$ogpt_settings['http://ogp.me/ns/fb#admins'] = get_option(OGPT_SETTINGS_KEY_FB_ADMINS);
-	$ogpt_settings['twitter:site'] = '@'.trim(get_option(OGPT_SETTINGS_KEY_TWITTER_SITE),'@ ');
+	$ogpt_settings['http://ogp.me/ns#site_name'] = get_bloginfo('name');
+	$ogpt_settings['http://ogp.me/ns#locale']    = get_locale();
+	$ogpt_settings['http://ogp.me/ns#type']      = OGPT_DEFAULT_TYPE;
+	$ogpt_settings['twitter:card']               = 'summary';
+	$ogpt_settings['twitter:site']               = '@'.trim(get_option(OGPT_SETTINGS_KEY_TWITTER_SITE),'@ ');
 }
 
 function opengraphprotocoltools_image_url_default() {
@@ -200,11 +204,11 @@ function opengraphprotocoltools_embed_youtube($post_id) {
 
 function opengraphprotocoltools_set_data() {
 	global $wp_query;
+	global $ogpt_settings;
 	load_opengraphprotocoltools_settings();
-	$data = array();
+	$data = $ogpt_settings;
 	if (is_front_page() || is_home()) :
 		$data['http://ogp.me/ns#title'] = get_bloginfo('name');
-		$data['http://ogp.me/ns#type'] = OGPT_DEFAULT_TYPE;
 		$data['http://ogp.me/ns#url'] = get_bloginfo('url');
 		$data['http://ogp.me/ns#description'] = get_bloginfo('description');
 	elseif (is_single() || is_page()):
@@ -215,27 +219,14 @@ function opengraphprotocoltools_set_data() {
 		$data['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	else:
 		$data['http://ogp.me/ns#title'] = get_bloginfo('name');
-		$data['http://ogp.me/ns#type'] = OGPT_DEFAULT_TYPE;
 		$data['http://ogp.me/ns#url'] = get_bloginfo('url');
 		$data['http://ogp.me/ns#description'] = get_bloginfo('description');
 		$data['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	endif;
 
-	$data['http://ogp.me/ns#site_name'] = get_bloginfo('name');
-	$data['http://ogp.me/ns#locale']    = get_locale();
-	$data['twitter:card'] = 'summary';
-
 	$data = array_merge($data,opengraphprotocoltools_image());
 	$data = array_merge($data,opengraphprotocoltools_audio());
 	$data = array_merge($data,opengraphprotocoltools_embed_youtube(get_the_ID()));
-	
-	global $ogpt_settings;
-	
-	foreach($ogpt_settings as $key => $value) {
-		if ($value!='') {
-			$data[$key] = $value;
-		}
-	}
 
 	ksort($data); // For easier debugging
 
