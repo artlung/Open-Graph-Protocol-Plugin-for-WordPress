@@ -192,9 +192,9 @@ function opengraphprotocoltools_embed_youtube($post_id) {
 		$data['http://ogp.me/ns#video:secure_url']   = 'https://www.youtube.com/embed/'.$matches[1];
 		$data['http://ogp.me/ns#image:width']        = '480';
 		$data['http://ogp.me/ns#image:height']       = '360';
-		$data['twitter:player']        = 'https://www.youtube.com/embed/'.$matches[1];
 		$data['http://ogp.me/ns#video:type']         = 'text/html';
 		$data['twitter:card']          = 'player';
+		$data['twitter:player']        = 'https://www.youtube.com/embed/'.$matches[1];
 		$data['twitter:player:width']  = '480';
 		$data['twitter:player:height'] = '360';
 	}
