@@ -281,9 +281,9 @@ function get_opengraphprotocoltools_headers($meta_tags) {
 	$out = array();
 	$out[] = "\n<!-- BEGIN: Open Graph Protocol Tools: http://opengraphprotocol.org/ for more info -->";
 
-	if ( $meta_tags['twitter:site'] = '@' )
+	if ( $meta_tags['twitter:site'] == '@' )
 		$meta_tags['twitter:site'] = '';
-	if ( $meta_tags['twitter:creator'] = '@' )
+	if ( $meta_tags['twitter:creator'] == '@' )
 		$meta_tags['twitter:creator'] = '';
 
 	foreach ($meta_tags as $property => $content) {
