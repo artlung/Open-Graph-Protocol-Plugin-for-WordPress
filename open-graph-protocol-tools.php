@@ -226,10 +226,16 @@ function opengraphprotocoltools_set_data() {
 		$meta_tags['http://ogp.me/ns#description'] = get_bloginfo('description');
 	elseif ( is_author() && isset( $post->post_author ) ):
 		$meta_tags['http://ogp.me/ns#type'] = 'profile';
+		$meta_tags['http://ogp.me/ns#title'] = get_the_author_meta( 'display_name', $post->post_author );
+		$meta_tags['http://ogp.me/ns#url'] = get_author_posts_url( $post->post_author );
 		if ( is_multi_author() )
 			$meta_tags['http://ogp.me/ns/profile#username'] = get_the_author_meta( 'login', $post->post_author );
 		$meta_tags['http://ogp.me/ns/profile#first_name'] = get_the_author_meta( 'first_name', $post->post_author );
 		$meta_tags['http://ogp.me/ns/profile#last_name'] = get_the_author_meta( 'last_name', $post->post_author );
+		$meta_tags['http://ogp.me/ns#image'] = array();
+		$meta_tags['http://ogp.me/ns#image']['url']        = 'http://www.gravatar.com/avatar/'.md5( strtolower( trim( get_the_author_meta( 'user_url', $post->post_author ) ) ) ).'?s=250&d='.get_option('avatar_default');
+		$meta_tags['http://ogp.me/ns#image']['width']      = '250';
+		$meta_tags['http://ogp.me/ns#image']['height']     = '250';
 	elseif (is_single() || is_page()):
 		$post_type = get_post_type();
 		if ( post_type_supports( $post_type, 'title' ) )
