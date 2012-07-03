@@ -248,6 +248,7 @@ function opengraphprotocoltools_set_data() {
 		$meta_tags['http://ogp.me/ns/article#modified_time'] = get_the_modified_date('c');
 		if ( post_type_supports( $post_type, 'author' ) && isset( $post->post_author ) )
 			$meta_tags['http://ogp.me/ns/article#author'] = get_author_posts_url( $post->post_author );
+//		$meta_tags['http://ogp.me/ns/article#author'] = get_the_author_meta( 'user_url', $post->post_author );
 		$meta_tags['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 		
 		$meta_tags = array_merge($meta_tags,opengraphprotocoltools_image());
