@@ -244,8 +244,8 @@ function opengraphprotocoltools_set_data() {
 			$meta_tags['http://ogp.me/ns#title'] = get_the_title();
 		$meta_tags['http://ogp.me/ns#type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE;
 		$meta_tags['http://ogp.me/ns#url'] = apply_filters( 'rel_canonical', get_permalink() );
-		$meta_tags['http://ogp.me/ns/article#published_time'] = get_the_date('c');
-		$meta_tags['http://ogp.me/ns/article#modified_time'] = get_the_modified_date('c');
+		$meta_tags['http://ogp.me/ns/article#published_time'] = get_post_time('c', true); // We use get_post_time instead of get_the_date so WordPress properly takes our time zone into account
+		$meta_tags['http://ogp.me/ns/article#modified_time'] = get_post_modified_time('c', true);
 		if ( post_type_supports( $post_type, 'author' ) && isset( $post->post_author ) )
 			$meta_tags['http://ogp.me/ns/article#author'] = get_author_posts_url( $post->post_author );
 //		$meta_tags['http://ogp.me/ns/article#author'] = get_the_author_meta( 'user_url', $post->post_author );
