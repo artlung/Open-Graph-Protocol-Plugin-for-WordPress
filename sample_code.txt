@@ -9,6 +9,3 @@ else:
 	echo "<!-- opengraphprotocoltools is not activated -->";
 endif;
 ?>
-
-
-Added code
