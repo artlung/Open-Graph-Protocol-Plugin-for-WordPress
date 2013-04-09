@@ -3,14 +3,14 @@
 Plugin Name: Open Graph Protocol Tools
 Plugin URI: http://lab.artlung.com/open-graph-protocol-tools/
 Description: Tools for Open Graph Protocol
-Version: 1.5
+Version: 1.6
 Author: Joe Crawford
 Author URI: http://joecrawford.com
 License: GPL2
 */
 // http://opengraphprotocol.org/
 
-/*  Copyright 2010-12  Joe Crawford  (email : joe@artlung.com)
+/*  Copyright 2010-13  Joe Crawford  (email : joe@artlung.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -317,8 +317,8 @@ function get_opengraphprotocoltools_tag($property, $content) {
 	}
 	else {
 		if ( strstr( $property, 'twitter:' ) )
-			return "<meta name=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
-		return "<meta property=\"{$property}\" content=\"".htmlentities($content, ENT_QUOTES, 'UTF-8')."\" />";
+			return "<meta name=\"{$property}\" content=\"".esc_attr($content)."\" />";
+		return "<meta property=\"{$property}\" content=\"".esc_attr($content)."\" />";
 	}
 }
 
