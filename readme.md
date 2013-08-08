@@ -1,10 +1,10 @@
-=== Plugin Name ===
-Contributors: artlung,pathawks
-Donate link: http://joecrawford.com/plugin-donation
-Tags: metadata, opengraphprotocol, facebook
-Requires at least: 2.9
-Tested up to: 3.5.1
-Stable tag: 1.6
+=== Plugin Name ===  
+Contributors: artlung,pathawks  
+Donate link: http://joecrawford.com/plugin-donation  
+Tags: metadata, opengraphprotocol, facebook  
+Requires at least: 2.9  
+Tested up to: 3.5.1  
+Stable tag: 1.6  
 
 Adds Open Graph Protocol meta to the individual pages and posts of your WordPress Install. 
 
