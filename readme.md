@@ -3,7 +3,7 @@ Contributors: artlung,pathawks
 Donate link: http://joecrawford.com/plugin-donation  
 Tags: metadata, opengraphprotocol, facebook  
 Requires at least: 2.9  
-Tested up to: 3.5.1  
+Tested up to: 3.6  
 Stable tag: 1.6  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
