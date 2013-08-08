@@ -1,10 +1,12 @@
-=== Plugin Name ===
-Contributors: artlung,pathawks
-Donate link: http://joecrawford.com/plugin-donation
-Tags: metadata, opengraphprotocol, facebook
-Requires at least: 2.9
-Tested up to: 3.5.1
-Stable tag: 1.6
+=== Plugin Name ===  
+Contributors: artlung,pathawks  
+Donate link: http://joecrawford.com/plugin-donation  
+Tags: metadata, opengraphprotocol, facebook  
+Requires at least: 2.9  
+Tested up to: 3.6  
+Stable tag: 1.6  
+License: GPLv2 or later  
+License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
 Adds Open Graph Protocol meta to the individual pages and posts of your WordPress Install. 
 
@@ -30,7 +32,7 @@ else:
 endif;
 ?&gt;</pre>
 
-It would be best if in your theme you also added an attribute in the &lt;html&gt; tag, like this: &lt;html prefix="og: http://ogp.me/ns#"&gt;
+It would be best if in your theme you also added an attribute in the `<html>` tag, like this: `<html prefix="og: http://ogp.me/ns#">`
 
 
 == Frequently Asked Questions ==
