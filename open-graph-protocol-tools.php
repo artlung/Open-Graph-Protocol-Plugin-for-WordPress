@@ -216,6 +216,7 @@ function opengraphprotocoltools_embed_youtube($post_id) {
 
 function opengraphprotocoltools_set_data() {
 	global $post;
+	$data = $post; // so that we don't accidentally explode the global
 	global $wp_query;
 	global $ogpt_settings;
 	load_opengraphprotocoltools_settings();
@@ -224,18 +225,18 @@ function opengraphprotocoltools_set_data() {
 		$meta_tags['http://ogp.me/ns#title'] = get_bloginfo('name');
 		$meta_tags['http://ogp.me/ns#url'] = get_bloginfo('url');
 		$meta_tags['http://ogp.me/ns#description'] = get_bloginfo('description');
-	elseif ( is_author() && isset( $post->post_author ) ):
+	elseif ( is_author() && isset( $data->post_author ) ):
 		$meta_tags['http://ogp.me/ns#type'] = 'profile';
-		$meta_tags['http://ogp.me/ns#title'] = get_the_author_meta( 'display_name', $post->post_author );
-		$meta_tags['http://ogp.me/ns#url'] = get_author_posts_url( $post->post_author );
+		$meta_tags['http://ogp.me/ns#title'] = get_the_author_meta( 'display_name', $data->post_author );
+		$meta_tags['http://ogp.me/ns#url'] = get_author_posts_url( $data->post_author );
 		if ( is_multi_author() )
-			$meta_tags['http://ogp.me/ns/profile#username'] = get_the_author_meta( 'login', $post->post_author );
-		$meta_tags['http://ogp.me/ns/profile#first_name'] = get_the_author_meta( 'first_name', $post->post_author );
-		$meta_tags['http://ogp.me/ns/profile#last_name'] = get_the_author_meta( 'last_name', $post->post_author );
-		$meta_tags['http://ogp.me/ns#description'] = get_the_author_meta( 'user_description', $post->post_author );
+			$meta_tags['http://ogp.me/ns/profile#username'] = get_the_author_meta( 'login', $data->post_author );
+		$meta_tags['http://ogp.me/ns/profile#first_name'] = get_the_author_meta( 'first_name', $data->post_author );
+		$meta_tags['http://ogp.me/ns/profile#last_name'] = get_the_author_meta( 'last_name', $data->post_author );
+		$meta_tags['http://ogp.me/ns#description'] = get_the_author_meta( 'user_description', $data->post_author );
 		$meta_tags['http://ogp.me/ns#image'] = array();
-		$meta_tags['http://ogp.me/ns#image']['url']        = 'http://www.gravatar.com/avatar/'.md5( strtolower( trim( get_the_author_meta( 'user_email', $post->post_author ) ) ) ).'?s=250&d='.get_option('avatar_default');
-		$meta_tags['http://ogp.me/ns#image']['secure_url'] = 'https://secure.gravatar.com/avatar/'.md5( strtolower( trim( get_the_author_meta( 'user_email', $post->post_author ) ) ) ).'?s=250&d='.get_option('avatar_default');
+		$meta_tags['http://ogp.me/ns#image']['url']        = 'http://www.gravatar.com/avatar/'.md5( strtolower( trim( get_the_author_meta( 'user_email', $data->post_author ) ) ) ).'?s=250&d='.get_option('avatar_default');
+		$meta_tags['http://ogp.me/ns#image']['secure_url'] = 'https://secure.gravatar.com/avatar/'.md5( strtolower( trim( get_the_author_meta( 'user_email', $data->post_author ) ) ) ).'?s=250&d='.get_option('avatar_default');
 		$meta_tags['http://ogp.me/ns#image']['width']      = '250';
 		$meta_tags['http://ogp.me/ns#image']['height']     = '250';
 	elseif (is_single() || is_page()):
@@ -244,10 +245,15 @@ function opengraphprotocoltools_set_data() {
 			$meta_tags['http://ogp.me/ns#title'] = get_the_title();
 		$meta_tags['http://ogp.me/ns#type'] = is_single() ? OGPT_ARTICLE_TYPE : OGPT_DEFAULT_TYPE;
 		$meta_tags['http://ogp.me/ns#url'] = apply_filters( 'rel_canonical', get_permalink() );
+		$meta_tags['http://ogp.me/ns#description'] = get_the_excerpt();
+		$meta_tags['http://ogp.me/ns#description'] = ' ';
+		if ( !post_password_required() )
+			$meta_tags['http://ogp.me/ns#description'] = ! empty( $data->post_excerpt ) ? preg_replace( '@https?://[\S]+@', '', strip_shortcodes( wp_kses( $data->post_excerpt, array() ) ) ): wp_trim_words( preg_replace( '@https?://[\S]+@', '', strip_shortcodes( wp_kses( $data->post_content, array() ) ) ) );
+
 		$meta_tags['http://ogp.me/ns/article#published_time'] = get_post_time('c', true); // We use get_post_time instead of get_the_date so WordPress properly takes our time zone into account
 		$meta_tags['http://ogp.me/ns/article#modified_time'] = get_post_modified_time('c', true);
-		if ( post_type_supports( $post_type, 'author' ) && isset( $post->post_author ) )
-			$meta_tags['http://ogp.me/ns/article#author'] = get_author_posts_url( $post->post_author );
+		if ( post_type_supports( $post_type, 'author' ) && isset( $data->post_author ) )
+			$meta_tags['http://ogp.me/ns/article#author'] = get_author_posts_url( $data->post_author );
 //		$meta_tags['http://ogp.me/ns/article#author'] = get_the_author_meta( 'user_url', $post->post_author );
 		$meta_tags['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 		
