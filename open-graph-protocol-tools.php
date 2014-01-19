@@ -118,6 +118,27 @@ function opengraphprotocoltools_image() {
 	global $post;
 	$meta_tags = array();
 
+	if ( has_post_thumbnail($post) ) {
+		$image_tags = array();
+		$opengraphprotocoltools_image_id = get_post_thumbnail_id( $post->ID );
+
+		if ( function_exists( 'jetpack_photon_url' ) && class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_active_modules' ) && in_array( 'photon', Jetpack::get_active_modules() ) ) {
+			$opengraphprotocoltools_image    = wp_get_attachment_image_src( $opengraphprotocoltools_image_id, 'full' );	
+			$image_tags['url']    = jetpack_photon_url( $opengraphprotocoltools_image[0], array( 'resize'=>'600,600' ) );
+			$image_tags['width']  = '600';
+			$image_tags['height'] = '600';
+		} else {
+			$opengraphprotocoltools_image    = wp_get_attachment_image_src( $opengraphprotocoltools_image_id, array(400,400) );
+			$image_tags['url']    = $opengraphprotocoltools_image[0];
+			$image_tags['width']  = $opengraphprotocoltools_image[1];
+			$image_tags['height'] = $opengraphprotocoltools_image[2];
+		}
+
+		$meta_tags['http://ogp.me/ns#image'] = array($image_tags);
+		$meta_tags['twitter:card'] = 'photo';
+		return $meta_tags;
+	}
+
 	$args = array(
 		'post_type' => 'attachment',
 		'post_mime_type' => 'image',
