@@ -360,6 +360,7 @@ function get_opengraphprotocoltools_like_code() {
 	return $out;
 }
 
+add_filter('jetpack_enable_open_graph', '__return_false');
 add_filter('user_contactmethods', 'opengraphprotocoltools_user_contactmethods');
 add_action('wp_head', 'opengraphprotocoltools_add_head');
 add_action('admin_menu', 'opengraphprotocoltools_plugin_menu');
