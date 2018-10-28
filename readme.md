@@ -3,7 +3,7 @@ Contributors: artlung,pathawks
 Donate link: http://joecrawford.com/plugin-donation
 Tags: metadata, opengraphprotocol, facebook
 Requires at least: 2.9
-Tested up to: 4.9.2
+Tested up to: 5.0
 Stable tag: 1.7
 
 Adds Open Graph Protocol meta to the individual pages and posts of your WordPress Install. 
