@@ -3,8 +3,8 @@ Contributors: artlung,pathawks
 Donate link: http://joecrawford.com/plugin-donation  
 Tags: metadata, opengraphprotocol, facebook  
 Requires at least: 2.9  
-Tested up to: 4.9.2  
-Stable tag: 1.7 
+Tested up to: 5.1
+Stable tag: 1.8 
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -61,5 +61,13 @@ None.
 * Improve issue with home vs front page
 
 = 1.6 =
-* Improvements by pathawks to accomodate more types
+* Improvements by pathawks to accommodate more types
 * Address double encoding issue with wptexturize modified values
+
+= 1.7 =
+
+* Misc improvements I never enumerated and can't remember. Whoops.
+
+= 1.8 =
+
+* WordPress 5 compatibility check!

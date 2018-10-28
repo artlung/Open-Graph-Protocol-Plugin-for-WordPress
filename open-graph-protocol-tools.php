@@ -10,7 +10,7 @@ License: GPL2
 */
 // http://opengraphprotocol.org/
 
-/*  Copyright 2010-13  Joe Crawford  (email : joe@artlung.com)
+/*  Copyright 2010-18  Joe Crawford  (email : joe@artlung.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -43,7 +43,7 @@ define('OGPT_SETTINGS_KEY_TWITTER_SITE', 'opengraphprotocoltools-twitter:site');
 
 $opengraphprotocoltools_keys = array(
 	OGPT_SETTINGS_KEY_FB_APP_ID => 'A Facebook Platform application (fb:app_id, formerly fb:appid) ID that administers this site.',
-	OGPT_SETTINGS_KEY_FB_ADMINS => 'A comma-separated list of Facebook user IDs that administers this site. You can find your user id by visiting <a href="http://apps.facebook.com/what-is-my-user-id/" target="_blank">http://apps.facebook.com/what-is-my-user-id/</a>',
+	OGPT_SETTINGS_KEY_FB_ADMINS => 'A comma-separated list of Facebook user IDs that administers this site. You can find your user id by visiting <a href=https://findmyfbid.in" target="_blank">https://findmyfbid.in</a>',
 	OGPT_SETTINGS_KEY_TWITTER_SITE => 'The Twitter @username of the entire site, if there is one.',
 );
 
