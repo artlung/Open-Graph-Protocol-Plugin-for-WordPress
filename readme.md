@@ -59,5 +59,14 @@ None.
 * Improve issue with home vs front page
 
 = 1.6 =
-* Improvements by pathawks to accomodate more types
+* Improvements by pathawks to accommodate more types
 * Address double encoding issue with wptexturize modified values
+
+
+= 1.7 =
+
+ * Misc improvements I never enumerated and can't remember. Whoops.
+
+ = 1.8 =
+
+ * WordPress 5 compatibility check!
