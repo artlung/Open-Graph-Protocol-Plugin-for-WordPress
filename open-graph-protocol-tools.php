@@ -3,7 +3,7 @@
 Plugin Name: Open Graph Protocol Tools
 Plugin URI: http://lab.artlung.com/open-graph-protocol-tools/
 Description: Tools for Open Graph Protocol
-Version: 1.7
+Version: 1.8
 Author: Joe Crawford
 Author URI: http://joecrawford.com
 License: GPL2
