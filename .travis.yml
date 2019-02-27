@@ -14,7 +14,6 @@ addons:
 php:
   - 7.0
   - 7.1
-  - 7.2
 
 env:
   global:
@@ -23,3 +22,32 @@ env:
     - WP_VERSION=nightly
     - WP_VERSION=latest
     - WP_VERSION=4.7.2
+
+matrix:
+  allow_failures:
+    - php: nightly
+    - env: WP_VERSION=nightly
+  fast_finish: true
+
+before_install:
+  # Install helper scripts
+  - travis_retry composer global require --prefer-dist --no-suggest typisttech/travis-nginx-wordpress:"^2.0"
+  - export PATH=$HOME/.composer/vendor/bin:$PATH
+  - tnw-install-nginx
+  - tnw-install-wordpress
+  - tnw-prepare-codeception
+
+  # Build the production plugin
+  - travis_retry composer build
+  # Install the medium plugin
+  - wp plugin install medium --force --activate --path=/tmp/wordpress
+  # Activate the plugin
+  - wp plugin install ./release/remove-medium-cross-links.zip --force --activate --path=/tmp/wordpress
+  # Export a dump of plugin-activated database to the _data folder
+  - wp db export $TRAVIS_BUILD_DIR/tests/_data/dump.sql --path=/tmp/wordpress
+
+install:
+  - travis_retry composer install --prefer-dist --no-suggest
+
+script:
+  - vendor/bin/codecept run acceptance
