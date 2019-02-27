@@ -1,0 +1,25 @@
+# .travis.yml
+language: php
+
+sudo: false
+
+services:
+  - mysql
+
+addons:
+  apt:
+    packages:
+      - nginx
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+
+env:
+  global:
+    - COMPOSER_NO_INTERACTION=1
+  matrix:
+    - WP_VERSION=nightly
+    - WP_VERSION=latest
+    - WP_VERSION=4.7.2
