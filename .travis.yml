@@ -29,6 +29,7 @@ php:
       - WP_VERSION=latest
       - WP_VERSION=4.9.3
       - WP_VERSION=4.8.5
+      - WP_VERSION=5.1
 
 before_install:
   # Install helper scripts
