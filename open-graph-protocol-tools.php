@@ -281,7 +281,12 @@ function opengraphprotocoltools_set_data() {
 		$meta_tags = array_merge($meta_tags,opengraphprotocoltools_image());
 		$meta_tags = array_merge($meta_tags,opengraphprotocoltools_audio());
 		$meta_tags = array_merge($meta_tags,opengraphprotocoltools_video());
-		
+	elseif (is_archive() && is_tag()):
+        $the_tag =  single_tag_title('', false);
+        $meta_tags['http://ogp.me/ns#title'] = get_bloginfo('name') . ": tag: " . $the_tag;
+//        $meta_tags['http://ogp.me/ns#url'] = "";
+        $meta_tags['http://ogp.me/ns#description'] = get_bloginfo('name') . " posts tagged with " . $the_tag;
+        $meta_tags['twitter:creator'] = get_opengraphprotocoltools_author_twitter();
 	else:
 		$meta_tags['http://ogp.me/ns#title'] = get_bloginfo('name');
 		$meta_tags['http://ogp.me/ns#url'] = get_bloginfo('url');
