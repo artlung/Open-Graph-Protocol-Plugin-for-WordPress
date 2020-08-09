@@ -3,8 +3,8 @@ Contributors: artlung,pathawks
 Donate link: http://joecrawford.com/plugin-donation
 Tags: metadata, opengraphprotocol, facebook
 Requires at least: 2.9
-Tested up to: 5.0
-Stable tag: 1.9
+Tested up to: 5.5
+Stable tag: 1.91
 
 Adds Open Graph Protocol meta to the individual pages and posts of your WordPress Install. 
 
@@ -30,7 +30,7 @@ else:
 endif;
 ?&gt;</pre>
 
-It would be best if in your theme you also added an attribute in the `<html>` tag, like this: `<html prefix="og: http://ogp.me/ns#">`
+It would be best if in your theme you also added an attribute in the `&lt;html&gt;` tag, like this: `&lt;html prefix="og: http://ogp.me/ns#"&gt;`
 
 
 == Frequently Asked Questions ==
@@ -74,3 +74,5 @@ None.
  = 1.9 =
  
  * Support for tag archive pages
+ = 1.91 =
+ * WordPress 5.5 compatible
