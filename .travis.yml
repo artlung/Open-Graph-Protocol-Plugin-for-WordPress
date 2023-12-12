@@ -19,6 +19,8 @@ addons:
 php:
   - 7.1
   - 7.2
+  - 7.3
+  - 7.4
   - nightly
 
   env:
@@ -27,8 +29,8 @@ php:
     matrix:
       - WP_VERSION=nightly
       - WP_VERSION=latest
-      - WP_VERSION=4.9.3
-      - WP_VERSION=4.8.5
+      - WP_VERSION=5.8.2
+      - WP_VERSION=6.3
 
 before_install:
   # Install helper scripts
