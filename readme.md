@@ -74,5 +74,11 @@ None.
  = 1.9 =
  
  * Support for tag archive pages
- = 1.91 =
- * WordPress 5.5 compatible
+
+= 1.91 =
+ 
+* WordPress 5.5 compatible
+
+= 1.9.6 =
+
+* WordPress 6.4 compatible
